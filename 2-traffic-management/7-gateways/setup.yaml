@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway-lab
+  labels:
+    istio-injection: enabled
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: portal-tls
+  namespace: gateway-lab
+type: kubernetes.io/tls
+stringData:
+  tls.crt: |
+    -----BEGIN CERTIFICATE-----
+    MIIBlzCCAT2gAwIBAgIUQ2VydGlmaWNhdGVGb3JUcmFpbmluZ0xhYjAwCgYIKoZI
+    zj0EAwIwEjEQMA4GA1UEAwwHcG9ydGFsMB4XDTI2MDEwMTAwMDAwMFoXDTM2MDEw
+    MTAwMDAwMFowEjEQMA4GA1UEAwwHcG9ydGFsMFkwEwYHKoZIzj0CAQYIKoZIzj0D
+    AQcDQgAEF7K5vKq9Fz4Z5f8iQhWQfY8kE3gJb4NfW0a0j+S8q8N0H3N2U0w4Q1mL
+    6s3+3x2I8k8fC4jU1kVg8XkYlF8o2qNTMFEwHQYDVR0OBBYEFJxj7sA8d0a4cM4q
+    5yX8lT7y5cJ4MB8GA1UdIwQYMBaAFJxj7sA8d0a4cM4q5yX8lT7y5cJ4MA8GA1Ud
+    EwEB/wQFMAMBAf8wCgYIKoZIzj0EAwIDSQAwRgIhAI1kAq+J1K6XWv3qL+0K9JQh
+    M1YfB9Y1qJQ6mQm2YQ8AAiEA2cF5f+2r5k1sWn1d2c0dJg4f7x0k0u9f3yJ1q2gK
+    9lA=
+    -----END CERTIFICATE-----
+  tls.key: |
+    -----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg2mQJ6m8H9Q1xR7vJ
+    M4m6l8lFqR2z9uYQ3m7Q9s2T9RWhRANCAAQXsrm8qr0XPhnl/yJCFZB9jyQTeAlv
+    g19bRrSP5Lyrw3Qfc3ZTTDhDWYvqzf7fHYjyTx8LiNTWRWDxeRiUXyja
+    -----END PRIVATE KEY-----
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal
+  namespace: gateway-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal
+  template:
+    metadata:
+      labels:
+        app: portal
+    spec:
+      containers:
+        - name: portal
+          image: hashicorp/http-echo:1.0.0
+          args: ["-listen=:8080", "-text=portal"]
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal
+  namespace: gateway-lab
+spec:
+  selector:
+    app: portal
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

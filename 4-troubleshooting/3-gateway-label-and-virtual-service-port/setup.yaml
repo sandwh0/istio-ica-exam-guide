@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway-debug-lab
+  labels:
+    istio-injection: enabled
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal
+  namespace: gateway-debug-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal
+  template:
+    metadata:
+      labels:
+        app: portal
+    spec:
+      containers:
+        - name: portal
+          image: hashicorp/http-echo:1.0.0
+          args: ["-listen=:8080", "-text=portal"]
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal
+  namespace: gateway-debug-lab
+spec:
+  selector:
+    app: portal
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: portal-gateway
+  namespace: gateway-debug-lab
+spec:
+  selector:
+    istio: ingress-gateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - portal.debug.example
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: portal
+  namespace: gateway-debug-lab
+spec:
+  hosts:
+    - portal.debug.example
+  gateways:
+    - portal-gateway
+  http:
+    - route:
+        - destination:
+            host: portal.wrong-ns.svc.cluster.local
+            port:
+              number: 8081

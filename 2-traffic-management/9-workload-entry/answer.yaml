@@ -1,0 +1,46 @@
+# Task 1: Create workload entry resources
+apiVersion: networking.istio.io/v1
+kind: WorkloadGroup
+metadata:
+  name: ledger-vm
+  namespace: workload-entry-lab
+spec:
+  metadata:
+    labels:
+      app: ledger
+      instance: vm-1
+  template:
+    serviceAccount: ledger-sa
+---
+apiVersion: networking.istio.io/v1
+kind: WorkloadEntry
+metadata:
+  name: ledger-vm-1
+  namespace: workload-entry-lab
+spec:
+  address: 192.168.10.10
+  labels:
+    app: ledger
+    instance: vm-1
+  serviceAccount: ledger-sa
+---
+# Task 2: Expose workload via ServiceEntry
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: ledger
+  namespace: workload-entry-lab
+spec:
+  hosts:
+    - ledger.internal
+  location: MESH_INTERNAL
+  ports:
+    - number: 80
+      name: http
+      protocol: HTTP
+      targetPort: 8080
+  resolution: STATIC
+  workloadSelector:
+    labels:
+      app: ledger
+      instance: vm-1

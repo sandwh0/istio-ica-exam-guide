@@ -1,0 +1,77 @@
+# Task 1: HTTP gateway and virtual service
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: portal-gateway
+  namespace: gateway-lab
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - portal.gateway-lab.example
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: portal
+  namespace: gateway-lab
+spec:
+  hosts:
+    - portal.gateway-lab.example
+  gateways:
+    - portal-gateway
+  http:
+    - route:
+        - destination:
+            host: portal
+            port:
+              number: 8080
+---
+# Task 2: TLS gateway and virtual service
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: portal-gateway
+  namespace: gateway-lab
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - portal.gateway-lab.example
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: portal-tls
+      hosts:
+        - portal-tls.gateway-lab.example
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: portal
+  namespace: gateway-lab
+spec:
+  hosts:
+    - portal.gateway-lab.example
+    - portal-tls.gateway-lab.example
+  gateways:
+    - portal-gateway
+  http:
+    - route:
+        - destination:
+            host: portal
+            port:
+              number: 8080

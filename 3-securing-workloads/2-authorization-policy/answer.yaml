@@ -1,0 +1,119 @@
+# Task 1: Basic AuthorizationPolicy (allow from frontend SA)
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend
+  namespace: authz-lab
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/authz-lab/sa/frontend
+---
+# Task 2: Selector-specific AuthorizationPolicy
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend-httpbin
+  namespace: authz-lab
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/authz-lab/sa/frontend
+---
+# Task 3: Namespace/global AuthorizationPolicy (no selector)
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-frontend-global
+  namespace: authz-lab
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/authz-lab/sa/frontend
+---
+# Task 4: Basic RequestAuthentication
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: httpbin-jwt
+  namespace: authz-lab
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  jwtRules:
+    - issuer: "testing@secure.istio.io"
+      jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.29/security/tools/jwt/samples/jwks.json"
+---
+# Task 5: Allow admin SA to call POST /post
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-admin-post
+  namespace: authz-lab
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/authz-lab/sa/admin
+      to:
+        - operation:
+            methods: ["POST"]
+            paths: ["/post"]
+---
+# Task 6: Deny-all policy for httpbin
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-all-httpbin
+  namespace: authz-lab
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: DENY
+  rules:
+    - {}
+---
+# Task 7: Multi-rule policy
+# Run before applying this task if Task 6 is still present:
+#   kubectl delete authorizationpolicy deny-all-httpbin -n authz-lab
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: api-access
+  namespace: authz-lab
+spec:
+  selector:
+    matchLabels:
+      app: httpbin
+  action: ALLOW
+  rules:
+    - to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/get", "/headers", "/ip"]
+    - from:
+        - source:
+            principals: ["cluster.local/ns/authz-lab/sa/admin"]
+      to:
+        - operation:
+            methods: ["POST"]
+            paths: ["/post"]

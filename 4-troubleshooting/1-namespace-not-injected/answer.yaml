@@ -1,0 +1,17 @@
+# Task 1: Identify why injection failed
+# Run:
+#   istioctl analyze -n troubleshoot-ns-injection
+#   kubectl get ns troubleshoot-ns-injection --show-labels
+#
+# Task 2: Fix namespace injection and redeploy
+# Run:
+#   kubectl label namespace troubleshoot-ns-injection istio-injection=enabled --overwrite
+#   kubectl rollout restart deployment frontend -n troubleshoot-ns-injection
+#   kubectl rollout status deployment frontend -n troubleshoot-ns-injection
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: troubleshoot-ns-injection
+  labels:
+    istio-injection: enabled

@@ -1,0 +1,11 @@
+# Task 1: Namespace injection
+# Run:
+#   kubectl label namespace injection-auto istio-injection=enabled --overwrite
+#   kubectl rollout restart deployment frontend -n injection-auto
+#   kubectl rollout status deployment frontend -n injection-auto
+#
+# Task 2: Manual injection in non-injected namespace
+# Run:
+#   kubectl create namespace injection-manual
+#   kubectl get configmap manual-demo -n injection-auto -o jsonpath='{.data.manifest}' > /tmp/manual-demo.yaml
+#   istioctl kube-inject -f /tmp/manual-demo.yaml | kubectl apply -n injection-manual -f -

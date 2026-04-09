@@ -1,0 +1,36 @@
+# Task 1: Retry policy for HTTP 500
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: httpbin
+  namespace: retries-lab
+spec:
+  hosts:
+    - httpbin
+  http:
+    - retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx
+      route:
+        - destination:
+            host: httpbin
+---
+# Task 2: Timeout policy
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: httpbin
+  namespace: retries-lab
+spec:
+  hosts:
+    - httpbin
+  http:
+    - timeout: 2s
+      retries:
+        attempts: 3
+        perTryTimeout: 2s
+        retryOn: 5xx
+      route:
+        - destination:
+            host: httpbin

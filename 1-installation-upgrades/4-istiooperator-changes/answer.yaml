@@ -1,0 +1,23 @@
+# Task 1: Install base Istio with istioctl
+# Run:
+#   istioctl install --set profile=demo -y
+#
+# Task 2: Update pilot resources using command line
+# Run:
+#   istioctl install --set profile=demo --set values.pilot.resources.requests.cpu=200m --set values.pilot.resources.requests.memory=256Mi -y
+---
+# Task 3: Update pilot resources using IstioOperator
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: pilot-resource-update
+  namespace: istio-system
+spec:
+  profile: demo
+  components:
+    pilot:
+      k8s:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi

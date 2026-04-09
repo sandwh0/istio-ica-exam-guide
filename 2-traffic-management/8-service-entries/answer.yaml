@@ -1,0 +1,35 @@
+# Task 1: DNS ServiceEntry
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: httpbin-external
+  namespace: service-entry-lab
+spec:
+  hosts:
+    - httpbin.org
+  location: MESH_EXTERNAL
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+  resolution: DNS
+---
+# Task 2: IP ServiceEntry
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: example-ip-external
+  namespace: service-entry-lab
+spec:
+  hosts:
+    - example-ip.external
+  addresses:
+    - 93.184.216.34
+  location: MESH_EXTERNAL
+  ports:
+    - number: 80
+      name: http
+      protocol: HTTP
+  resolution: STATIC
+  endpoints:
+    - address: 93.184.216.34

@@ -1,0 +1,34 @@
+# Task 1: Fix gateway selector
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: portal-gateway
+  namespace: gateway-debug-lab
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - portal.debug.example
+---
+# Task 2: Fix VirtualService destination host and port
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: portal
+  namespace: gateway-debug-lab
+spec:
+  hosts:
+    - portal.debug.example
+  gateways:
+    - portal-gateway
+  http:
+    - route:
+        - destination:
+            host: portal.gateway-debug-lab.svc.cluster.local
+            port:
+              number: 8080

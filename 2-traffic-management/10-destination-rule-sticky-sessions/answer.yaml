@@ -1,0 +1,28 @@
+# Task 1: URI prefix redirect
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: web
+  namespace: virtualservice-lab
+spec:
+  hosts:
+    - web
+  http:
+    - match:
+        - uri:
+            prefix: /old
+      redirect:
+        uri: /new
+    - match:
+        - headers:
+            x-lab-user:
+              exact: canary
+      route:
+        - destination:
+            host: web
+            port:
+              number: 80
+---
+# Task 2: Exact header match route
+# Included in the second HTTP rule above:
+#   header x-lab-user exact=canary routes to web:80

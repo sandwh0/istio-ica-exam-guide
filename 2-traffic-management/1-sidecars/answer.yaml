@@ -1,0 +1,26 @@
+# Task 1: Basic Sidecar (namespace level)
+apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: default-egress
+  namespace: sidecar-lab
+spec:
+  egress:
+    - hosts:
+        - "./*"
+        - "istio-system/*"
+---
+# Task 2: Selector-specific Sidecar
+apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: frontend-egress
+  namespace: sidecar-lab
+spec:
+  workloadSelector:
+    labels:
+      app: frontend
+  egress:
+    - hosts:
+        - "./*"
+        - "istio-system/*"

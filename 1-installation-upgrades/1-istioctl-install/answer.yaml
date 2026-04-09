@@ -1,0 +1,7 @@
+# Task 1: Fresh install with demo profile
+# Run:
+#   istioctl install --set profile=demo -y
+#
+# Task 2: Set pilot resource requests via command line
+# Run:
+#   istioctl install --set profile=demo --set values.pilot.resources.requests.cpu=100m --set values.pilot.resources.requests.memory=128Mi -y

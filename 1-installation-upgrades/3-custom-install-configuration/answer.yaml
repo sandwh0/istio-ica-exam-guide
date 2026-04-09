@@ -1,0 +1,13 @@
+# Task 1: Install using IstioOperator
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: lab-rev-install
+  namespace: istio-system
+spec:
+  profile: demo
+  revision: lab-rev
+  components:
+    egressGateways:
+      - name: istio-egressgateway
+        enabled: true

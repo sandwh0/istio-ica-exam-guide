@@ -1,0 +1,37 @@
+# Task 1: Delay fault
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ratings
+  namespace: fault-injection-lab
+spec:
+  hosts:
+    - ratings
+  http:
+    - fault:
+        delay:
+          fixedDelay: 5s
+          percentage:
+            value: 100
+      route:
+        - destination:
+            host: ratings
+---
+# Task 2: Error fault
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ratings
+  namespace: fault-injection-lab
+spec:
+  hosts:
+    - ratings
+  http:
+    - fault:
+        abort:
+          httpStatus: 503
+          percentage:
+            value: 100
+      route:
+        - destination:
+            host: ratings

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: troubleshoot-ns-injection
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: troubleshoot-ns-injection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: hashicorp/http-echo:1.0.0
+          args: ["-listen=:8080", "-text=frontend"]
+          ports:
+            - containerPort: 8080

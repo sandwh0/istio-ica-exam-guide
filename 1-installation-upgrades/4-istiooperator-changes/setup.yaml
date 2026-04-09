@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: operator-change-lab
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes
+  namespace: operator-change-lab
+data:
+  reminder: "Use the same management path as the original istioctl installation."
