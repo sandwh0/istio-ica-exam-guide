@@ -27,51 +27,6 @@ spec:
     - from:
         - source:
             principals:
-              - cluster.local/ns/authz-lab/sa/frontend
----
-# Task 3: Namespace/global AuthorizationPolicy (no selector)
-apiVersion: security.istio.io/v1
-kind: AuthorizationPolicy
-metadata:
-  name: allow-frontend-global
-  namespace: authz-lab
-spec:
-  action: ALLOW
-  rules:
-    - from:
-        - source:
-            principals:
-              - cluster.local/ns/authz-lab/sa/frontend
----
-# Task 4: Basic RequestAuthentication
-apiVersion: security.istio.io/v1
-kind: RequestAuthentication
-metadata:
-  name: httpbin-jwt
-  namespace: authz-lab
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  jwtRules:
-    - issuer: "testing@secure.istio.io"
-      jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.29/security/tools/jwt/samples/jwks.json"
----
-# Task 5: Allow admin SA to call POST /post
-apiVersion: security.istio.io/v1
-kind: AuthorizationPolicy
-metadata:
-  name: allow-admin-post
-  namespace: authz-lab
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  action: ALLOW
-  rules:
-    - from:
-        - source:
-            principals:
               - cluster.local/ns/authz-lab/sa/admin
       to:
         - operation:
@@ -83,14 +38,8 @@ apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
   name: deny-all-httpbin
-  namespace: authz-lab
-spec:
-  selector:
-    matchLabels:
-      app: httpbin
-  action: DENY
-  rules:
-    - {}
+  namespace: deny-all
+spec: {}
 ---
 # Task 7: Multi-rule policy
 # Run before applying this task if Task 6 is still present:

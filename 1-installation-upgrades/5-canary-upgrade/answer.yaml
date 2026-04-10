@@ -1,0 +1,43 @@
+# Task 1: Install lower version revision
+# Run:
+#   curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.25.0 sh -
+#   cd istio-1.25.0
+#   export PATH=$PWD/bin:$PATH
+#   istioctl install --set profile=demo -y
+#
+# Task 3: Install newer canary revision
+# Run:
+#   To check the current control-plane and data-plane versions, use:
+#   istioctl proxy-status
+#
+#   curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.26.6 sh -
+#   cd istio-1.26.6
+#   export PATH=$PWD/bin:$PATH
+#   istioctl install --set revision=1-26-6 --set profile=demo -y
+#
+#   To review available revision tags:
+#   istioctl tag list
+#
+#   To point the `latest` tag at the new revision:
+#   istioctl tag set latest --revision=1-26-6
+#
+# Task 4: Move namespace to new revision
+# Run:
+#   To check the namespace revision label:
+#   kubectl get namespace canary-upgrade-lab -o jsonpath='{.metadata.labels.istio\.io/rev}'
+#
+#   Update the namespace so the labels look like this:
+#   labels:
+#     istio-injection: enabled
+#     istio.io/rev: 1-26-6
+#
+#   One way to do that is:
+#   kubectl edit namespace canary-upgrade-lab
+#
+#   Then restart the workload:
+#   kubectl rollout restart deployment frontend -n canary-upgrade-lab
+#
+# Task 5: Cleanup
+# Run:
+#   istioctl tag set list
+#   istioctl uninstall --revision=<old-revision> -y

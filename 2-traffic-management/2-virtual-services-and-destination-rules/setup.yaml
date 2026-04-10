@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: vs-dr-lab
+  name: weighting-lab
   labels:
     istio-injection: enabled
 ---
@@ -9,7 +9,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reviews-v1
-  namespace: vs-dr-lab
+  namespace: weighting-lab
 spec:
   replicas: 1
   selector:
@@ -24,16 +24,13 @@ spec:
     spec:
       containers:
         - name: reviews
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=reviews-v1"]
-          ports:
-            - containerPort: 8080
+          image: nginx
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reviews-v2
-  namespace: vs-dr-lab
+  namespace: weighting-lab
 spec:
   replicas: 1
   selector:
@@ -48,16 +45,13 @@ spec:
     spec:
       containers:
         - name: reviews
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=reviews-v2"]
-          ports:
-            - containerPort: 8080
+          image: nginx
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: reviews
-  namespace: vs-dr-lab
+  namespace: weighting-lab
 spec:
   selector:
     app: reviews

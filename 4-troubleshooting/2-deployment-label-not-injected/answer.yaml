@@ -3,11 +3,5 @@
 #   kubectl get ns deployment-label-lab --show-labels
 #   kubectl get deployment frontend -n deployment-label-lab -o yaml
 #
-# Task 2: Fix annotation and redeploy
-# Run:
-#   kubectl patch deployment frontend -n deployment-label-lab --type json -p '[{"op":"remove","path":"/spec/template/metadata/annotations/sidecar.istio.io~1inject"}]'
-#   kubectl rollout restart deployment frontend -n deployment-label-lab
-#   kubectl rollout status deployment frontend -n deployment-label-lab
-#
-# After the patch, the pod template should no longer include
-# `sidecar.istio.io/inject: "false"`.
+#   kubectl edit deployment frontend -n deployment-label-lab
+#   In the editor, change the annotation `sidecar.istio.io/inject: "false"` to `sidecar.istio.io/inject: "true"`

@@ -1,6 +1,6 @@
 # Traffic Management
 
-Traffic management is the heaviest practical area in most Istio revision plans. You need to recognise which resource controls which part of traffic flow, and you need to be able to validate the outcome rather than assume the configuration is correct.
+For traffic management, you need to recognise which resource controls which part of traffic flow.
 
 ## For the exam you should be confident with the following
 

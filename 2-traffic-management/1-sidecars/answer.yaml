@@ -9,17 +9,18 @@ spec:
     - hosts:
         - "./*"
         - "istio-system/*"
+        - "security/*"
 ---
 # Task 2: Selector-specific Sidecar
 apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
-  name: frontend-egress
-  namespace: sidecar-lab
+  name: super-egress
+  namespace: super-security
 spec:
   workloadSelector:
     labels:
-      app: frontend
+      app: payments
   egress:
     - hosts:
         - "./*"

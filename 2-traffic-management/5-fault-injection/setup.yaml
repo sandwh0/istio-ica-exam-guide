@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: fault-injection-lab
+  name: ratings
   labels:
     istio-injection: enabled
 ---
@@ -22,10 +22,7 @@ spec:
     spec:
       containers:
         - name: ratings
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=ratings"]
-          ports:
-            - containerPort: 8080
+          image: nginx
 ---
 apiVersion: v1
 kind: Service
@@ -35,6 +32,45 @@ metadata:
 spec:
   selector:
     app: ratings
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: api
+  labels:
+    istio-injection: enabled
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  namespace: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-server
+  template:
+    metadata:
+      labels:
+        app: api-server
+    spec:
+      containers:
+        - name: api-server
+          image: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-server
+  namespace: api
+spec:
+  selector:
+    app: api-server
   ports:
     - name: http
       port: 80

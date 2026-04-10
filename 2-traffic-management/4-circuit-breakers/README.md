@@ -3,8 +3,8 @@
 ## Overview
 
 - Circuit breaking protects services under load or failure conditions.
-- In Istio, this is configured in `DestinationRule` traffic policies.
-- Typical settings include connection pool limits and outlier detection.
+- It can stop sending traffic to a service that is failing or overwhelmed.
+- This is configured in `DestinationRule` traffic policies.
 
 ## Setup
 
@@ -19,11 +19,12 @@ kubectl apply -f 2-traffic-management/4-circuit-breakers/setup.yaml
 ## Task
 
 ### Task 1 - Circuit breaker policy
-- Create a `DestinationRule` for `httpbin`.
+- Create a `DestinationRule` for `httpbin` service.
+- Apply it in the `circuit-breaker-lab` namespace.
 - Set:
-  - `http1MaxPendingRequests: 1`
-  - `maxRequestsPerConnection: 1`
-  - `consecutive5xxErrors: 1`
+  - 1 max connection
+  - 5 max requests per connection
+  - 2 consetive 5xx errors 
 
 ## Validation Checks
 
@@ -34,7 +35,6 @@ kubectl get destinationrule httpbin -n circuit-breaker-lab -o yaml
 ## Cleanup
 
 ```bash
-kubectl delete destinationrule httpbin -n circuit-breaker-lab --ignore-not-found=true
 kubectl delete namespace circuit-breaker-lab --ignore-not-found=true
 ```
 

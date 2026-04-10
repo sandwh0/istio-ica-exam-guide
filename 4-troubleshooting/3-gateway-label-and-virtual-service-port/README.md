@@ -12,20 +12,10 @@ kubectl apply -f 4-troubleshooting/3-gateway-label-and-virtual-service-port/setu
 
 ## Task
 
-### Task 1 - Find ingress routing issues
-- External traffic to `portal.debug.example` is not reaching the `portal` workload.
-- Identify the misconfiguration in ingress gateway binding.
-
-### Task 2 - Find service routing issues
-- Continue troubleshooting the virtual service route configuration.
-- Identify and fix destination targeting problems so traffic reaches the correct service endpoint.
-
-## Validation Checks
-
-```bash
-kubectl get gateway,virtualservice -n gateway-debug-lab -o yaml
-kubectl get service portal -n gateway-debug-lab
-```
+### Task 1 - Find and fix ingress routing issues
+- External traffic to `portal.debug.example` that is accessible on port 80 is not reaching the `portal` workload.
+- Find and fix the issues.
+- Hint there are 3 issues.
 
 ## Cleanup
 

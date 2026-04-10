@@ -1,4 +1,6 @@
-# Task 1: Fix gateway selector
+# Task 1:
+# Use istioctl analyse -n gateway-debug-lab can show issues sometimes
+
 apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
@@ -6,7 +8,7 @@ metadata:
   namespace: gateway-debug-lab
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway # This was wrong (put correct label for your Istio ingress gateway)
   servers:
     - port:
         number: 80
@@ -14,8 +16,7 @@ spec:
         protocol: HTTP
       hosts:
         - portal.debug.example
----
-# Task 2: Fix VirtualService destination host and port
+
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
@@ -29,6 +30,6 @@ spec:
   http:
     - route:
         - destination:
-            host: portal.gateway-debug-lab.svc.cluster.local
+            host: portal.gateway-debug-lab.svc.cluster.local # ns was wrong in this
             port:
-              number: 8080
+              number: 8080 # This was wrong

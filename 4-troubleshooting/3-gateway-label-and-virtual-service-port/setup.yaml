@@ -22,10 +22,7 @@ spec:
     spec:
       containers:
         - name: portal
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=portal"]
-          ports:
-            - containerPort: 8080
+          image: nginx
 ---
 apiVersion: v1
 kind: Service
@@ -47,7 +44,7 @@ metadata:
   namespace: gateway-debug-lab
 spec:
   selector:
-    istio: ingress-gateway
+    istio: gateway
   servers:
     - port:
         number: 80
@@ -69,6 +66,6 @@ spec:
   http:
     - route:
         - destination:
-            host: portal.wrong-ns.svc.cluster.local
+            host: portal.default.svc.cluster.local
             port:
               number: 8081

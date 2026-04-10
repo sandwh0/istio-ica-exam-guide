@@ -20,11 +20,11 @@ There is a directory for each exam topic:
 
 Inside each topic directory, you will find:
 
-- A high-level overview to refresh core concepts.
+- A high-level overview to understanding core concepts.
 - Labs to practice the topic.
 - A `setup.yaml` to prepare your environment for each lab.
 - An `answer.yaml` to check your solution.
-- A `cleandown.yaml` to reset your environment after finishing.
+- Use the cleardown commands to clear resources.
 
 ## How to use this repo
 - Read the topic overview first.
@@ -42,10 +42,13 @@ Inside each topic directory, you will find:
 - Prerequisites: there are no prerequisites for this exam.
 - The exam is 2 hours long and follows a format similar to the Kubernetes exams.
 - The exam consists of 15-20 performance-based tasks.
-- Pass mark: 66%.
+- Pass mark: 68%.
 
 ## Exam Syllabus
 - Installation, Upgrade & Configuration (20%)
 - Traffic Management (35%)
 - Securing Workloads (25%)
 - Troubleshooting (20%)
+
+## Recommended Study Resources
+- I highly recommend [KodeKloud's ICA course.](https://learn.kodekloud.com/courses/istio-certified-associate)

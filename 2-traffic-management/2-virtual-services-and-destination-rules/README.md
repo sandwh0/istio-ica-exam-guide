@@ -2,9 +2,11 @@
 
 ## Overview
 
-- `DestinationRule` defines traffic policies and subsets (for example `v1` and `v2`).
-- `VirtualService` defines how traffic is routed to those subsets.
-- Together, they let you do safe progressive delivery (for example 80/20 rollouts).
+- `VirtualService` allow you to configure traffic routing rules. 
+  - It controls where traffic is routed inside the mesh.
+- `DestinationRule` lets you control how traffic is sent.
+  - It would with the virutal Service.
+- So while the virtual service is where your traffic goes, desintation rule is how it gets there.
 
 ## Setup
 
@@ -19,26 +21,14 @@ kubectl apply -f 2-traffic-management/2-virtual-services-and-destination-rules/s
 ## Task
 
 ### Task 1 - Basic subset routing
-- Create a `DestinationRule` for service `reviews` with subsets `v1` and `v2`.
-- Create a `VirtualService` that routes all traffic to subset `v1`.
+- Route 80% of the `reviews` traffic to `reviews-v1` and 20% to `reviews-v2`.
+- You will need to create a destination rule and a virtual service.
 
-### Task 2 - Weighted subset routing (20/80)
-- Update the `VirtualService` so traffic is split:
-  - 20% to subset `v1`
-  - 80% to subset `v2`
-
-## Validation Checks
-
-```bash
-kubectl get virtualservice,destinationrule -n vs-dr-lab
-kubectl get virtualservice reviews -n vs-dr-lab -o yaml
-```
 
 ## Cleanup
 
 ```bash
-kubectl delete virtualservice reviews destinationrule reviews -n vs-dr-lab --ignore-not-found=true
-kubectl delete namespace vs-dr-lab --ignore-not-found=true
+kubectl delete namespace weighting-lab --ignore-not-found=true
 ```
 
 ## Answer

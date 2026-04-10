@@ -23,8 +23,6 @@ spec:
       containers:
         - name: httpbin
           image: kennethreitz/httpbin
-          ports:
-            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -38,23 +36,3 @@ spec:
     - name: http
       port: 8000
       targetPort: 80
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sleep
-  namespace: circuit-breaker-lab
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sleep
-  template:
-    metadata:
-      labels:
-        app: sleep
-    spec:
-      containers:
-        - name: sleep
-          image: curlimages/curl:8.7.1
-          command: ["/bin/sh", "-c", "sleep 365d"]

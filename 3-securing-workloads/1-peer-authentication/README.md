@@ -10,7 +10,6 @@
   - `STRICT` = only mTLS allowed.
   - `PERMISSIVE` = both mTLS and plain text allowed.
   - `DISABLE` = only plain text allowed (mTLS rejected).
-- Exam tip: start with namespace-level `STRICT`, then tighten or relax behavior with selector-specific policies if needed.
 
 ## Setup
 

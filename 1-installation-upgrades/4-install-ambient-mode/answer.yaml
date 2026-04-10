@@ -1,0 +1,9 @@
+# Task 1: Install ambient profile
+# Run:
+#   istioctl install --set profile=ambient -y
+#
+# Task 2: Verify ambient components
+# Run:
+#   kubectl get deployment istiod -n istio-system
+#   kubectl get daemonset istio-cni-node -n istio-system
+#   kubectl get daemonset ztunnel -n istio-system

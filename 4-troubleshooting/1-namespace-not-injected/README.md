@@ -12,14 +12,9 @@ kubectl apply -f 4-troubleshooting/1-namespace-not-injected/setup.yaml
 
 ## Task
 
-### Task 1 - Find the root cause
+### Task 1 - Find and fix the root cause
 - The `frontend` workload in `troubleshoot-ns-injection` is not joining the mesh correctly.
 - Identify the configuration issue causing the communication problem.
-
-### Task 2 - Apply a fix and confirm
-- Implement the minimal fix.
-- Restart/reconcile the workload as needed.
-- Confirm the workload now includes `istio-proxy`.
 
 ## Validation Checks
 
@@ -31,7 +26,6 @@ kubectl get pod -n troubleshoot-ns-injection -l app=frontend -o jsonpath='{.item
 ## Cleanup
 
 ```bash
-kubectl delete deployment frontend -n troubleshoot-ns-injection --ignore-not-found=true
 kubectl delete namespace troubleshoot-ns-injection --ignore-not-found=true
 ```
 

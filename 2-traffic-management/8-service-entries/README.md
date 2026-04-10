@@ -2,9 +2,8 @@
 
 ## Overview
 
-- `ServiceEntry` adds external services into Istio's service registry.
-- This lets mesh traffic policies apply to services outside the cluster.
-- Common patterns are DNS-based external services and static IP-based services.
+- `ServiceEntry` registers an external service into the mesh.
+- So Istio knows about it, and can communicate with it.
 
 ## Setup
 
@@ -19,14 +18,17 @@ kubectl apply -f 2-traffic-management/8-service-entries/setup.yaml
 ## Task
 
 ### Task 1 - DNS ServiceEntry
-- Create `ServiceEntry` named `httpbin-external`.
-- Allow HTTPS access to `httpbin.org` on port `443`.
-- Use `location: MESH_EXTERNAL` and `resolution: DNS`.
+- Create `ServiceEntry` named `cool-se` in the `cool` namesapce.
+- Register external host cool-url.lab on port 80 using DNS resolution.
 
 ### Task 2 - IP ServiceEntry
-- Create `ServiceEntry` named `example-ip-external`.
-- Model external host `example-ip.external` with address `93.184.216.34`.
-- Use `location: MESH_EXTERNAL` and `resolution: STATIC`.
+- Create `ServiceEntry` named `warm-se` in the `warm` namespace.
+- Register external host 'warm-url.lab' which is accessible on `193.184.216.34:80`.
+- Note Resolution should be static.
+
+### Task 3 - Virtual Service
+- Create a `VirtualService` for host `warm-url.lab` in the `warm` namespace.
+- Route HTTP traffic to `warm-url.lab` on port 80
 
 ## Validation Checks
 
@@ -37,8 +39,8 @@ kubectl get serviceentry -n service-entry-lab
 ## Cleanup
 
 ```bash
-kubectl delete serviceentry httpbin-external example-ip-external -n service-entry-lab --ignore-not-found=true
-kubectl delete namespace service-entry-lab --ignore-not-found=true
+kubectl delete namespace cool --ignore-not-found=true
+kubectl delete namespace warm --ignore-not-found=true
 ```
 
 ## Answer

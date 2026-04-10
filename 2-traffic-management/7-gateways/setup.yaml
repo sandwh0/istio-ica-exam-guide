@@ -49,7 +49,6 @@ spec:
       containers:
         - name: portal
           image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=portal"]
           ports:
             - containerPort: 8080
 ---

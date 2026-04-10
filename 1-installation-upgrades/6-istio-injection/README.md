@@ -2,8 +2,8 @@
 
 ## Overview
 
-- Namespace injection automatically adds sidecars to new pods.
-- Manual injection uses `istioctl kube-inject` to generate injected manifests.
+- Namespace injection automatically adds sidecars to new pods. This adds sidecars to all pods in that namespace.
+- Manual injection uses `istioctl kube-inject` to generate injected manifests. It only adds sidecars to those specific resources.
 - Both approaches are common exam tasks.
 
 ## Setup
@@ -23,8 +23,7 @@ kubectl apply -f 1-installation-upgrades/7-istio-injection/setup.yaml
 - Restart deployment `frontend` and confirm `istio-proxy` exists.
 
 ### Task 2 - Manual injection in non-injected namespace
-- Create namespace `injection-manual` without injection label.
-- Manually inject and apply the deployment manifest from `manual-demo` ConfigMap.
+- Manually inject the deployment backend in the no-injection namespace.
 - Confirm `istio-proxy` exists in manual namespace.
 
 ## Validation Checks
@@ -37,12 +36,8 @@ kubectl get pod -n injection-manual -l app=frontend -o jsonpath='{.items[0].spec
 ## Cleanup
 
 ```bash
-kubectl delete deployment frontend -n injection-auto --ignore-not-found=true
-kubectl delete service frontend -n injection-auto --ignore-not-found=true
-kubectl delete configmap manual-demo -n injection-auto --ignore-not-found=true
-kubectl delete deployment frontend -n injection-manual --ignore-not-found=true
 kubectl delete namespace injection-auto --ignore-not-found=true
-kubectl delete namespace injection-manual --ignore-not-found=true
+kubectl delete namespace no-injection --ignore-not-found=true
 ```
 
 ## Answer

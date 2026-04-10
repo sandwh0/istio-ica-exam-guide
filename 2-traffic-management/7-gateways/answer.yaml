@@ -6,14 +6,14 @@ metadata:
   namespace: gateway-lab
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway # Or watever your ingress gateway label is (found in the ingressgateway pod)
   servers:
     - port:
         number: 80
         name: http
         protocol: HTTP
       hosts:
-        - portal.gateway-lab.example
+        - example.lab
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -22,7 +22,7 @@ metadata:
   namespace: gateway-lab
 spec:
   hosts:
-    - portal.gateway-lab.example
+    - example.lab
   gateways:
     - portal-gateway
   http:
@@ -47,7 +47,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - portal.gateway-lab.example
+        - example.lab
     - port:
         number: 443
         name: https
@@ -56,7 +56,7 @@ spec:
         mode: SIMPLE
         credentialName: portal-tls
       hosts:
-        - portal-tls.gateway-lab.example
+        - example.lab
 ---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -65,8 +65,7 @@ metadata:
   namespace: gateway-lab
 spec:
   hosts:
-    - portal.gateway-lab.example
-    - portal-tls.gateway-lab.example
+    - example.lab
   gateways:
     - portal-gateway
   http:
@@ -75,3 +74,4 @@ spec:
             host: portal
             port:
               number: 8080
+

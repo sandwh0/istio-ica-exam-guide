@@ -6,7 +6,12 @@
 - You install a newer revision, move namespace labels, and restart workloads.
 - This lets you upgrade gradually instead of changing everything at once.
 
-## Setup
+## Task
+
+### Task 1 - Install lower version revision
+- Install an older Istio - version 1.25.0 with profile demo.
+
+### Task 2 - Apply the setup.yaml
 
 ```bash
 # Method 1: Direct from GitHub (no clone needed)
@@ -16,18 +21,14 @@ kubectl apply -f https://raw.githubusercontent.com/sandwh0/istio-ica-exam-guide/
 kubectl apply -f 1-installation-upgrades/6-canary-upgrade/setup.yaml
 ```
 
-## Task
+### Task 3 - Upgrade istio to version 1.26.6 using a canary upgrade
 
-### Task 1 - Install lower version revision
-- Install an older Istio revision named `1-21-0`.
-- Restart `frontend` so it joins revision `1-21-0`.
+### Task 4 - Move workload namespace to new revision
+- Switch namespace `canary-upgrade-lab` to use the upgraded istio version.]
+- Redploy the front app in the `canary-upgrade-lab` namespace.
 
-### Task 2 - Install newer canary revision
-- Install a newer Istio revision named `1-22-0`.
+### Task 5 - Uninstall The older istio version
 
-### Task 3 - Move workload namespace to new revision
-- Switch namespace `canary-upgrade-lab` from `1-21-0` to `1-22-0`.
-- Restart `frontend` and verify new pods use the new revision.
 
 ## Validation Checks
 

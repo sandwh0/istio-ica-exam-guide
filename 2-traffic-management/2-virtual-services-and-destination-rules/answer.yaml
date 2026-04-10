@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: reviews
-  namespace: vs-dr-lab
+  namespace: weighting-lab
 spec:
   host: reviews
   subsets:
@@ -18,23 +18,7 @@ apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: reviews
-  namespace: vs-dr-lab
-spec:
-  hosts:
-    - reviews
-  http:
-    - route:
-        - destination:
-            host: reviews
-            subset: v1
-          weight: 100
----
-# Task 2: Weighted subset routing (20/80)
-apiVersion: networking.istio.io/v1
-kind: VirtualService
-metadata:
-  name: reviews
-  namespace: vs-dr-lab
+  namespace: weighting-lab
 spec:
   hosts:
     - reviews

@@ -2,9 +2,9 @@
 
 ## Overview
 
-- Fault injection lets you simulate failures intentionally.
-- This is used to test retries, timeouts, and client behavior under bad conditions.
-- Common fault types are delay and abort (error response).
+- Fault injection lets deliberately add error and/or delays to your service.
+- This is good for testing, to seee how your service / environment handles these.
+
 
 ## Setup
 
@@ -19,12 +19,13 @@ kubectl apply -f 2-traffic-management/5-fault-injection/setup.yaml
 ## Task
 
 ### Task 1 - Delay fault
-- Create a `VirtualService` for `ratings`.
+- Create a `VirtualService` in `ratings` namespace the for `ratings` service.
 - Inject a fixed delay of `5s` on 100% of requests.
 
 ### Task 2 - Error fault
-- Update the same `VirtualService`.
-- Inject an HTTP abort fault with status code `503` on 100% of requests.
+- Create a `VirtualService` in `api` namespace the for `api-server` service.
+- Have it abort 100% of the traffic with a `501` error code where the header is end-user=test-account
+- The rest of the traffic should continue to `api-server` as normal
 
 ## Validation Checks
 
@@ -35,8 +36,8 @@ kubectl get virtualservice ratings -n fault-injection-lab -o yaml
 ## Cleanup
 
 ```bash
-kubectl delete virtualservice ratings -n fault-injection-lab --ignore-not-found=true
-kubectl delete namespace fault-injection-lab --ignore-not-found=true
+kubectl delete namespace ratings --ignore-not-found=true
+kubectl delete namespace api --ignore-not-found=true
 ```
 
 ## Answer

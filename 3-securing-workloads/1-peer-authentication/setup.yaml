@@ -22,8 +22,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: curlimages/curl:8.7.1
-          command: ["/bin/sh", "-c", "sleep 365d"]
+          image: nginx
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,10 +41,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=backend"]
-          ports:
-            - containerPort: 8080
+          image: nginx
 ---
 apiVersion: v1
 kind: Service

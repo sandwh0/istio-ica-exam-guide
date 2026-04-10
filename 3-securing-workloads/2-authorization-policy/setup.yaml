@@ -4,6 +4,12 @@ metadata:
   name: authz-lab
   labels:
     istio-injection: enabled
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deny-all
+  labels:
+    istio-injection: enabled
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -70,7 +76,6 @@ spec:
       containers:
         - name: frontend
           image: curlimages/curl:8.7.1
-          command: ["/bin/sh", "-c", "sleep 365d"]
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -91,4 +96,3 @@ spec:
       containers:
         - name: admin
           image: curlimages/curl:8.7.1
-          command: ["/bin/sh", "-c", "sleep 365d"]

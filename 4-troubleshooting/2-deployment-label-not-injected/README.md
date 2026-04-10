@@ -12,27 +12,22 @@ kubectl apply -f 4-troubleshooting/2-deployment-label-not-injected/setup.yaml
 
 ## Task
 
-### Task 1 - Find the root cause
-- Workload communication is failing even though the namespace appears mesh-enabled.
-- Identify the workload-level configuration causing the problem.
-
-### Task 2 - Apply a fix and confirm
-- Implement the minimal fix on the workload configuration.
-- Restart/reconcile the deployment.
-- Confirm new pods include `istio-proxy`.
+### Task 1 - Find the root cause of the following issue
+- Deployment `frontend`in `lab-two` namespace does nto have a sidecar.
+- Identify why and fix.
 
 ## Validation Checks
 
 ```bash
-kubectl get deployment frontend -n deployment-label-lab -o yaml
-kubectl get pod -n deployment-label-lab -l app=frontend -o jsonpath='{.items[0].spec.containers[*].name}'
+kubectl get pod -n lab-twp -o yaml
+kubectl get pod -n lab-two -l app=frontend -o jsonpath='{.items[0].spec.containers[*].name}'
 ```
 
 ## Cleanup
 
 ```bash
-kubectl delete deployment frontend -n deployment-label-lab --ignore-not-found=true
-kubectl delete namespace deployment-label-lab --ignore-not-found=true
+kubectl delete deployment frontend -n lab-two --ignore-not-found=true
+kubectl delete namespace lab-two --ignore-not-found=true
 ```
 
 ## Answer

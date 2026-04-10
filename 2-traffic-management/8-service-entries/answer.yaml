@@ -2,29 +2,27 @@
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
-  name: httpbin-external
-  namespace: service-entry-lab
+  name: cool-se
+  namespace: cool
 spec:
   hosts:
-    - httpbin.org
+    - cool-url.lab
   location: MESH_EXTERNAL
   ports:
-    - number: 443
-      name: https
-      protocol: HTTPS
+    - number: 80
+      name: http
+      protocol: HTTP
   resolution: DNS
 ---
 # Task 2: IP ServiceEntry
 apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
-  name: example-ip-external
-  namespace: service-entry-lab
+  name: warm-se
+  namespace: warm
 spec:
   hosts:
-    - example-ip.external
-  addresses:
-    - 93.184.216.34
+    - warm-url.lab
   location: MESH_EXTERNAL
   ports:
     - number: 80
@@ -32,4 +30,20 @@ spec:
       protocol: HTTP
   resolution: STATIC
   endpoints:
-    - address: 93.184.216.34
+    - address: 193.184.216.34
+---
+# Task 3: Virtual Service
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: warm-vs
+  namespace: warm
+spec:
+  hosts:
+    - warm-url.lab
+  http:
+    - route:
+        - destination:
+            host: warm-url.lab
+            port:
+              number: 80

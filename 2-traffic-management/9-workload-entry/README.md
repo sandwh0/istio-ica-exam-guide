@@ -2,9 +2,9 @@
 
 ## Overview
 
-- `WorkloadEntry` models non-Kubernetes workloads (for example VMs) in the mesh.
-- `ServiceEntry` can then expose those workloads as routable services.
-- `WorkloadGroup` provides reusable bootstrap and identity settings for similar workloads.
+- `WorkloadEntry` lets you register a non-kube workload as part of the mesh.
+- Like a VM, bare metal server, amazon ec2 etc.
+- You’re basically saying “Hey heres a vm outside of kube, but I want it to be apart of the mesh. Secure the traffic, monitor it etc”
 
 ## Setup
 
@@ -19,14 +19,14 @@ kubectl apply -f 2-traffic-management/9-workload-entry/setup.yaml
 ## Task
 
 ### Task 1 - Create workload entry resources
-- Create a `WorkloadGroup` named `ledger-vm`.
-- Create a `WorkloadEntry` named `ledger-vm-1` with address `192.168.10.10`.
-- Ensure labels and service account are consistent.
+- Create a `WorkloadEntry` named `the-cabbage-vm` for a VM with the address `192.168.10.10`.
+- Ensure it has the label location=external
 
 ### Task 2 - Expose workload via ServiceEntry
-- Create a `ServiceEntry` named `ledger`.
-- Use `MESH_INTERNAL` with `STATIC` resolution.
-- Ensure `workloadSelector` matches the `WorkloadEntry` labels.
+- Create a ServiceEntry named cabbage in the cabbage namespace.
+- Expose the WorkloadEntry using host cabbage.internal.
+- Use location: MESH_INTERNAL and resolution: STATIC.
+- Ensure the workloadSelector matches the labels on the-cabbage-vm.
 
 ## Validation Checks
 
@@ -37,8 +37,7 @@ kubectl get workloadgroup,workloadentry,serviceentry -n workload-entry-lab
 ## Cleanup
 
 ```bash
-kubectl delete workloadgroup ledger-vm workloadentry ledger-vm-1 serviceentry ledger -n workload-entry-lab --ignore-not-found=true
-kubectl delete namespace workload-entry-lab --ignore-not-found=true
+kubectl delete namespace cabbage --ignore-not-found=true
 ```
 
 ## Answer

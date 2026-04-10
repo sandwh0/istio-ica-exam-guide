@@ -25,7 +25,6 @@ kubectl get deployment istiod -n istio-system
 helm uninstall istiod -n istio-system
 helm uninstall istio-base -n istio-system
 kubectl delete namespace istio-system --ignore-not-found=true
-kubectl delete namespace helm-install-lab --ignore-not-found=true
 ```
 
 ## Answer

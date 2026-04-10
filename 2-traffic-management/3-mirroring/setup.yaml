@@ -24,10 +24,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=api-v1"]
-          ports:
-            - containerPort: 8080
+          image:nginx
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,10 +45,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: hashicorp/http-echo:1.0.0
-          args: ["-listen=:8080", "-text=api-v2"]
-          ports:
-            - containerPort: 8080
+          image: nginx
 ---
 apiVersion: v1
 kind: Service

@@ -5,6 +5,7 @@
 # Task 2: Update pilot resources using command line
 # Run:
 #   istioctl install --set profile=demo --set values.pilot.resources.requests.cpu=200m --set values.pilot.resources.requests.memory=256Mi -y
+
 ---
 # Task 3: Update pilot resources using IstioOperator
 apiVersion: install.istio.io/v1alpha1

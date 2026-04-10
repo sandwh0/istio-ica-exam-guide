@@ -1,6 +1,6 @@
 # Security
 
-The security section focuses on the policy resources that appear regularly in exam scenarios. The main skill is reading the existing policy posture quickly and then applying the smallest safe change.
+The security section focuses on the policy resources that appear regularly in exam scenarios. 
 
 ## For the exam you should be confident with the following
 

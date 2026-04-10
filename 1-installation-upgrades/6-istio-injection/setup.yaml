@@ -1,51 +1,47 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: cool
-  labels:
-    istio-injection: enabled
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sleep
-  namespace: service-entry-lab
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: sleep
-  template:
-    metadata:
-      labels:
-        app: sleep
-    spec:
-      containers:
-        - name: sleep
-          image: nginx
+  name: injection-auto
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: warm
-  labels:
-    istio-injection: enabled
+  name: no-injection
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sleep
-  namespace: warm
+  name: frontend
+  namespace: injection-auto
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sleep
+      app: frontend
   template:
     metadata:
       labels:
-        app: sleep
+        app: frontend
     spec:
       containers:
-        - name: sleep
+        - name: frontend
+          image: nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: no-injection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
           image: nginx
