@@ -2,11 +2,13 @@
 
 ## Setup
 
+### Method 1: Direct from GitHub (no clone needed)
 ```bash
-# Method 1: Direct from GitHub (no clone needed)
 kubectl apply -f https://raw.githubusercontent.com/sandwh0/istio-ica-exam-guide/main/4-troubleshooting/2-deployment-label-not-injected/setup.yaml
+```
 
-# Method 2: Local repo path
+### Method 2: Local repo path
+```bash
 kubectl apply -f 4-troubleshooting/2-deployment-label-not-injected/setup.yaml
 ```
 

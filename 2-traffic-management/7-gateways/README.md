@@ -8,11 +8,13 @@
 
 ## Setup
 
+### Method 1: Direct from GitHub (no clone needed)
 ```bash
-# Method 1: Direct from GitHub (no clone needed)
 kubectl apply -f https://raw.githubusercontent.com/sandwh0/istio-ica-exam-guide/main/2-traffic-management/7-gateways/setup.yaml
+```
 
-# Method 2: Local repo path
+### Method 2: Local repo path
+```bash
 kubectl apply -f 2-traffic-management/7-gateways/setup.yaml
 ```
 
