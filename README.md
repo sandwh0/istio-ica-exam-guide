@@ -52,3 +52,5 @@ Inside each topic directory, you will find:
 
 ## Recommended Study Resources
 - I highly recommend [KodeKloud's ICA course.](https://learn.kodekloud.com/courses/istio-certified-associate)
+
+> ## Please feel free to open a PR if you spot any mistakes, typos, or gaps in the lab content.
